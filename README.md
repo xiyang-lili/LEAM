@@ -55,7 +55,20 @@ Jupyter notebooks in [`plots`](./plots) folders are used to reproduce paper figu
 Note that without modification, we have copyed our extracted results into the notebook, and script will output figures in the paper. If you've run your own training and wish to plot results, you'll have to organize your results in the same format instead.
 
 
+## external dataset list https://git.uwaterloo.ca/jimmylin/Castor-data/-/tree/master/datasets
 
-
-
-
+## train steps:
+1. prepare:
+train_x, val_x, test_x,   ## 文本对应的 id
+train_text, val_text, test_text, train_y, val_y, test_y,  ## 文本 和 标签
+wordtoix, ixtoword  # 字典
+  data: train.csv   vlid.csv   test.csv
+        text # label（multi hot）
+  specific: add create_cpickle.py
+2. glove_generate.py
+3. generate_emb.py   (need provide label description which a label sentence' words exist in vocab)
+4. main_multiclass.py  
+      - replace class_name
+      - replace embedding classifier softmax logits to sigmoid logits 
+      - to use gpu in cuda10 version, install tf1.14 and change cnn function; change tf.equal argmax to tf.where_v2(prob>0.5,1,0); compare all y
+      - reduce epoch, learning_rate, expand batch_size, change seq_len
